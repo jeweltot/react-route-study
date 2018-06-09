@@ -3,7 +3,7 @@ import PostIndex from './components/post_index';
 import PostsNew from './components/posts_new'
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
-const App = () => {
+const RouteIndex = () => {
     return (
         <BrowserRouter>
             <div>
@@ -16,4 +16,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default RouteIndex;
