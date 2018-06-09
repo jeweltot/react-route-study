@@ -2,29 +2,39 @@ import React, {Component} from 'react';
 import { reduxForm, Field} from 'redux-form';
 import { createPost } from "../actions";
 
-class PostsNew extends Component {
+class PostsNew extends Component
+{
     submit = (values, dispatch) =>
     {
         return dispatch(createPost(values));
     };
 
     render() {
-        const {handleSubmit} = this.props;
+        const renderField = ({
+                input, label, type, meta: { touched, error, warning }
+            }) => (
+            <div>
+                <label>{label}</label>
+                <div>
+                    <input {...input} placeholder={label} type={type} />
+                    {touched && ((error && <div>{error}</div>) || (warning && <div>{warning}</div>))}
+                </div>
+            </div>
+        );
+
+        const {fields : {title, categories, content}, handleSubmit} = this.props;
 
         return (
             <form onSubmit={handleSubmit(this.submit)}>
                 <h3>Create A New Post</h3>
                 <div className="form-group">
-                    <label>title</label>
-                    <Field name="title" component="input" type="text" className="form-control"/>
+                    <Field name="title" component={renderField} type="text" label="title"  {...title} />
                 </div>
                 <div className="form-group">
-                    <label>categories</label>
-                    <Field name="categories" component="input" type="text" className="form-control"/>
+                    <Field name="categories" component={renderField} type="text" label="categories" {...categories} />
                 </div>
                 <div className="form-group">
-                    <label>content</label>
-                    <Field name="content" component="textarea" type="text" className="form-control"/>
+                    <Field name="content" component={renderField} type="text" label="content" {...content} />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
@@ -32,9 +42,19 @@ class PostsNew extends Component {
     }
 }
 
+const validate = values => {
+    const errors = {};
+    if (!values.title)
+    {
+        errors.title = 'Required';
+    }
+    return errors
+};
 
 // connect : first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm : first argument is form config, 2nd is mapStateToProps, 3nd is mapDispatchToProps
 export default reduxForm({
-    form : 'PostsNewForm'
+    form : 'PostsNewForm',
+    fields : ['title', 'categories', 'content'],
+    validate
 }, null, {createPost})(PostsNew);
