@@ -10,9 +10,7 @@ class PostsNew extends Component
     };
 
     render() {
-        const renderField = ({
-                input, label, type, meta: { touched, error, warning }
-            }) => (
+        const renderField = ({input, label, type, meta: { touched, error, warning }}) => (
             <div>
                 <label>{label}</label>
                 <div>
@@ -44,10 +42,22 @@ class PostsNew extends Component
 
 const validate = values => {
     const errors = {};
+
     if (!values.title)
     {
         errors.title = 'Required';
     }
+
+    if (!values.categories)
+    {
+        errors.categories = 'Required';
+    }
+
+    if (!values.content)
+    {
+        errors.content = 'Required';
+    }
+
     return errors
 };
 
