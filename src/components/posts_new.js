@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm, Field} from 'redux-form';
 import { createPost } from "../actions";
 
 class PostsNew extends Component
 {
-    submit = (values, dispatch) =>
+    static contextTypes = {
+        router : PropTypes.object.isRequired
+    };
+
+    submit = (values) =>
     {
-        return dispatch(createPost(values));
+        //return dispatch(createPost(values));
+        this.props.dispatch(createPost(values))
+            .then(() => {
+                this.context.router.history.push('/');
+            });
     };
 
     render() {

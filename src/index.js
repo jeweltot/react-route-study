@@ -7,11 +7,14 @@ import RouteIndex from './routeIndex';
 import reducers from './reducers';
 import promise from 'redux-promise';
 import registerServiceWorker from './registerServiceWorker';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+const store = createStore(reducers, composeWithDevTools(
+    applyMiddleware(promise)
+));
 
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
         <RouteIndex/>
     </Provider>,
     document.getElementById('root'));
